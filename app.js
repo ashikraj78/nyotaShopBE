@@ -18,7 +18,8 @@ const authMiddleware = require("./middleware/authMiddleware");
 var app = express();
 // connect to mongoose
 mongoose
-  .connect("mongodb://127.0.0.1:27017/nyota")
+  // .connect("mongodb://127.0.0.1:27017/nyota")
+  .connect(process.env.MONGO_DB)
   .then(() => console.log("Connnected to DB"))
   .catch((err) => console.log(err));
 

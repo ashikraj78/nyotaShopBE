@@ -102,7 +102,7 @@ let userController = {
           jwtToken,
         });
       } catch (error) {
-        res.status(500).json({ msg: "Something went wrong" });
+        res.status(500).json({ msg: "Something went wrong,  first singup" });
       }
     } else {
       // OTP verification failed
