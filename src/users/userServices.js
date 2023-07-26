@@ -41,7 +41,10 @@ let userServices = {
   },
   showUser: async function (userId) {
     try {
-      let user = await User.findById(userId);
+      let user = await User.findById(userId).populate(
+        "myProducts",
+        "title cost videoLink"
+      );
       return user;
     } catch (error) {
       return error;
@@ -49,7 +52,9 @@ let userServices = {
   },
   findUser: async function (mobilenumber) {
     try {
-      return await User.findOne({ mobilenumber: mobilenumber });
+      return await (
+        await User.findOne({ mobilenumber: mobilenumber })
+      ).populate("myProducts", "title cost videoLink");
     } catch (error) {
       return error;
     }

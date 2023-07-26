@@ -18,7 +18,7 @@ let userController = {
       await client.messages.create({
         body: message,
         from: "+16205318738",
-        to: mobilenumber,
+        to: "+918989047460",
       });
     } catch (error) {
       console.error(error);
@@ -111,7 +111,7 @@ let userController = {
   },
 
   showUser: async function (req, res, next) {
-    const id = req.params.id;
+    const id = req.query.id;
     try {
       let user = await userServices.showUser(id);
       return res.json({ user });

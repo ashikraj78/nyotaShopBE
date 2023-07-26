@@ -11,5 +11,6 @@ router.get("/", function (req, res, next) {
 router.post("/createUser", userController.createUser);
 router.post("/generateOTP", userController.generateOTP);
 router.post("/loginUser", userController.loginUser);
+router.get("/showUser", userController.showUser);
 
 module.exports = router;
