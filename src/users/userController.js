@@ -11,19 +11,21 @@ let userController = {
       return res.status(400).json({ msg: " mobilenumber is required" });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    const message = `Your OTP code is: ${otp}`;
+    const otp = 123456;
 
-    try {
-      await client.messages.create({
-        body: message,
-        from: "+17626004967",
-        to: "+918989047460",
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ msg: "Failed to send OTP" });
-    }
+    // const otp = Math.floor(100000 + Math.random() * 900000);
+    // const message = `Your OTP code is: ${otp}`;
+
+    // try {
+    //   await client.messages.create({
+    //     body: message,
+    //     from: "+17626004967",
+    //     to: "+918989047460",
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    //   return res.status(500).json({ msg: "Failed to send OTP" });
+    // }
 
     const temporaryUser = { name, mobilenumber, otp };
     try {
@@ -84,10 +86,9 @@ let userController = {
     }
   },
   loginUser: async function (req, res, next) {
-    console.log("login user");
-
     const userOtp = req.body.otp;
     const mobilenumber = req.body.mobilenumber;
+
     // Get stored OTP from database
     const storedUser = await userServices.findTemporaryUser(mobilenumber);
     const storedOtp = storedUser?.otp;

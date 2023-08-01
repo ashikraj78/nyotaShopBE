@@ -41,10 +41,19 @@ let userServices = {
   },
   showUser: async function (userId) {
     try {
-      let user = await User.findById(userId).populate(
-        "myProducts",
-        "title cost videoLink"
-      );
+      let user = await User.findById(userId)
+        .populate("myProducts", "title cost videoLink")
+        .populate({
+          path: "myOrders",
+          populate: {
+            path: "productId",
+            model: "Product",
+            select: "title videoLink",
+          },
+          select: "title videoLink",
+          select: "productId paidAmount formDataId createdAt",
+        });
+
       return user;
     } catch (error) {
       return error;
@@ -52,9 +61,17 @@ let userServices = {
   },
   findUser: async function (mobilenumber) {
     try {
-      return await (
-        await User.findOne({ mobilenumber: mobilenumber })
-      ).populate("myProducts", "title cost videoLink");
+      return await User.findOne({ mobilenumber: mobilenumber })
+        .populate("myProducts", "title cost videoLink")
+        .populate({
+          path: "myOrders",
+          populate: {
+            path: "productId",
+            model: "Product",
+            select: "title videoLink",
+          },
+          select: "productId paidAmount formDataId createdAt",
+        });
     } catch (error) {
       return error;
     }

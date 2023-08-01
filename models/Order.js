@@ -4,8 +4,15 @@ var Schema = mongoose.Schema;
 var orderSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    videoId: { type: String, required: true },
-    isCompleted: Boolean,
+    productId: { type: Schema.Types.ObjectId, required: true, ref: "Product" },
+    formDataId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "FormData",
+    },
+    razorPayPaymentId: { type: String, required: true },
+    paidAmount: { type: Number, required: true },
+    orderStatus: { type: String },
   },
   { timestamps: true }
 );

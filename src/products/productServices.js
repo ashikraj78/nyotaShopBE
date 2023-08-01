@@ -8,6 +8,13 @@ let productServices = {
       return error;
     }
   },
+  showProduct: async function (productId) {
+    try {
+      return await Product.findById(productId);
+    } catch (error) {
+      return error;
+    }
+  },
 };
 
 module.exports = productServices;

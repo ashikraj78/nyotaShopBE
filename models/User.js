@@ -9,6 +9,7 @@ var userSchema = new Schema(
     isAdmin: { type: Boolean, default: false },
     isCreator: { type: Boolean, default: false },
     myProducts: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+    myOrders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
   },
   { timestamps: true }
 );

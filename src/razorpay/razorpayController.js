@@ -1,4 +1,5 @@
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 let razorpayController = {
   createSession: async function (req, res) {
     try {
@@ -20,17 +21,17 @@ let razorpayController = {
       return res.status(500).json({ msg: "Failed to create session" });
     }
   },
-  //   verifyPayment: async (orderId, paymentId, signature) => {
+
   verifyPayment: async function (req, res) {
     const { orderId, paymentId, signature } = req.body;
-    const payload = `${orderId}|${paymentId}`;
+    // const payload = `${orderId}|${paymentId}`;
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
     const expectedSignature = crypto
-      .createHmac("sha256", "your_key_secret")
-      .update(payload)
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(orderId + "|" + paymentId)
       .digest("hex");
     if (expectedSignature === signature) {
       const payment = await razorpay.payments.fetch(paymentId);

@@ -60,6 +60,16 @@ let productController = {
       return res.status(500).json({ msg: "Failed to create product" });
     }
   },
+  showProduct: async function (req, res) {
+    const productId = req.query.id;
+    try {
+      const product = await productServices.showProduct(productId);
+      return res.json(product);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: "Failed to fetch product" });
+    }
+  },
 };
 
 module.exports = productController;
