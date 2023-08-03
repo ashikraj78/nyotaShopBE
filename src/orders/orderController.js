@@ -46,5 +46,32 @@ let orderController = {
       return res.status(500).json({ msg: "Failed to create order" });
     }
   },
+  listOrder: async function (req, res, next) {
+    try {
+      const allOrders = await orderServices.listOrder();
+      return res.json(allOrders);
+    } catch (error) {
+      next(error);
+    }
+  },
+  showOrder: async function (req, res, next) {
+    const orderId = req.qurey.id;
+    try {
+      let order = await orderServices.showOrder(orderId);
+      return res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  },
+  updateOrder: async function (req, res, next) {
+    const orderId = req.qurey.id;
+    const orderInfo = req.body.orderInfo;
+    try {
+      let updatedOrder = await orderServices.updateOrder(orderId, orderInfo);
+      return res.json(updatedOrder);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 module.exports = orderController;

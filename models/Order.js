@@ -12,7 +12,11 @@ var orderSchema = new Schema(
     },
     razorPayPaymentId: { type: String, required: true },
     paidAmount: { type: Number, required: true },
-    orderStatus: { type: String },
+    orderStatus: {
+      type: String,
+      enum: ["Received", "InProgress", "Delivered"],
+      default: "Received",
+    },
   },
   { timestamps: true }
 );
