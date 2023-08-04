@@ -55,7 +55,7 @@ let orderController = {
     }
   },
   showOrder: async function (req, res, next) {
-    const orderId = req.qurey.id;
+    const orderId = req.query.id;
     try {
       let order = await orderServices.showOrder(orderId);
       return res.json(order);

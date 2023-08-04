@@ -19,7 +19,11 @@ let orderServices = {
   },
   showOrder: async function (orderId) {
     try {
-      return await Order.findById(orderId);
+      return await Order.findById(orderId)
+        .populate("userId", "name mobilenumber")
+        .populate("productId", "title videoLink")
+        .populate("formDataId")
+        .sort({ createdAt: "desc" });
     } catch (error) {
       return error;
     }
