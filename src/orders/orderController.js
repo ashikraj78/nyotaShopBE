@@ -64,8 +64,8 @@ let orderController = {
     }
   },
   updateOrder: async function (req, res, next) {
-    const orderId = req.qurey.id;
-    const orderInfo = req.body.orderInfo;
+    const orderId = req.query.id;
+    const orderInfo = req.body;
     try {
       let updatedOrder = await orderServices.updateOrder(orderId, orderInfo);
       return res.json(updatedOrder);
