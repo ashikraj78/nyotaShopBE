@@ -9,18 +9,16 @@ let userServices = {
       return error;
     }
   },
-  findTemporaryUser: async function (mobilenumber) {
+  findTemporaryUser: async function (temporaryUserId) {
     try {
-      return await TemporaryUser.findOne({ mobilenumber: mobilenumber });
+      return await TemporaryUser.findById(temporaryUserId);
     } catch (error) {
       return error;
     }
   },
-  deleteTemporaryUser: async function (mobilenumber) {
+  deleteTemporaryUser: async function (temporaryUserId) {
     try {
-      return await TemporaryUser.findOneAndDelete({
-        mobilenumber: mobilenumber,
-      });
+      return await TemporaryUser.findByIdAndDelete(temporaryUserId);
     } catch (error) {
       return error;
     }
@@ -79,6 +77,13 @@ let userServices = {
   updateUser: async function (userId, user) {
     try {
       return await User.findByIdAndUpdate(userId, user, { new: true });
+    } catch (error) {
+      return error;
+    }
+  },
+  findMobileNumber: async function (mobilenumber) {
+    try {
+      return await User.findOne({ mobilenumber: mobilenumber });
     } catch (error) {
       return error;
     }

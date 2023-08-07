@@ -6,9 +6,27 @@ const client = require("twilio")(accountSid, authToken);
 
 let userController = {
   generateOTP: async function (req, res) {
-    const { name, mobilenumber } = req.body;
+    const { name, mobilenumber, otpForm } = req.body;
     if (!mobilenumber) {
-      return res.status(400).json({ msg: " mobilenumber is required" });
+      return res.status(400).json({ msg: " Mobile Number is required" });
+    } else if (!name && otpForm == "singup") {
+      return res.status(400).json({ msg: "Name is required" });
+    } else if (otpForm == "signup") {
+      const mobileNumberExist = await userServices.findMobileNumber(
+        mobilenumber
+      );
+      if (mobileNumberExist) {
+        return res
+          .status(400)
+          .json({ msg: "Mobile Number is already registered. Please Login" });
+      }
+    } else if (otpForm !== "signup") {
+      const mobileNumberExist = await userServices.findMobileNumber(
+        mobilenumber
+      );
+      if (!mobileNumberExist) {
+        return res.status(400).json({ msg: "Please Signup first" });
+      }
     }
 
     const otp = 123456;
@@ -32,9 +50,10 @@ let userController = {
       const createdTemporaryUser = await userServices.createTemporaryUser(
         temporaryUser
       );
-      return res
-        .status(201)
-        .json({ mobileNumber: createdTemporaryUser.mobilenumber });
+      return res.status(201).json({
+        mobileNumber: createdTemporaryUser.mobilenumber,
+        temporaryUserId: createdTemporaryUser._id,
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ msg: "Failed to create temporary user" });
@@ -43,8 +62,9 @@ let userController = {
   createUser: async function (req, res) {
     const userOtp = req.body.otp;
     const mobilenumber = req.body.mobilenumber;
+    const temporaryUserId = req.body.temporaryUserId;
     // Get stored OTP from database
-    const storedUser = await userServices.findTemporaryUser(mobilenumber);
+    const storedUser = await userServices.findTemporaryUser(temporaryUserId);
     const storedOtp = storedUser?.otp;
 
     if (userOtp == storedOtp) {
@@ -62,7 +82,7 @@ let userController = {
 
       try {
         const createUser = await userServices.createUser(user);
-        await userServices.deleteTemporaryUser(storedUser.mobilenumber);
+        await userServices.deleteTemporaryUser(storedUser._id);
         const jwtToken = await authServices.generateToken(createUser);
         return res.status(201).json({
           user: createUser.toJSON(),
@@ -73,7 +93,9 @@ let userController = {
       }
     } else {
       // OTP verification failed
-      res.send("OTP verification failed");
+      return res
+        .status(400)
+        .json({ msg: "Invalid OTP. Please check and try again." });
     }
   },
 
@@ -88,15 +110,16 @@ let userController = {
   loginUser: async function (req, res, next) {
     const userOtp = req.body.otp;
     const mobilenumber = req.body.mobilenumber;
+    const temporaryUserId = req.body.temporaryUserId;
 
     // Get stored OTP from database
-    const storedUser = await userServices.findTemporaryUser(mobilenumber);
+    const storedUser = await userServices.findTemporaryUser(temporaryUserId);
     const storedOtp = storedUser?.otp;
 
     if (userOtp == storedOtp) {
       try {
         const user = await userServices.findUser(mobilenumber);
-        await userServices.deleteTemporaryUser(storedUser.mobilenumber);
+        await userServices.deleteTemporaryUser(storedUser._id);
         const jwtToken = await authServices.generateToken(user);
         return res.status(201).json({
           user: user.toJSON(),
@@ -106,8 +129,9 @@ let userController = {
         res.status(500).json({ msg: "Something went wrong,  first singup" });
       }
     } else {
-      // OTP verification failed
-      res.send("OTP verification failed");
+      return res
+        .status(400)
+        .json({ msg: "Invalid OTP. Please check and try again." });
     }
   },
 

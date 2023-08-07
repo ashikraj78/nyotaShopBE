@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var temporaryUserSchema = new Schema(
   {
     name: String,
-    mobilenumber: { type: Number, required: true, unique: true },
+    mobilenumber: { type: Number, required: true },
     otp: { type: Number, required: true },
     isValidated: Boolean,
   },
