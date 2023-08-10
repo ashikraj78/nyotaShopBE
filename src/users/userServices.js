@@ -49,7 +49,7 @@ let userServices = {
             select: "title videoLink",
           },
           select: "title videoLink",
-          select: "productId paidAmount formDataId createdAt",
+          select: "productId paidAmount formDataId createdAt orderStatus",
         });
 
       return user;
@@ -68,7 +68,7 @@ let userServices = {
             model: "Product",
             select: "title videoLink",
           },
-          select: "productId paidAmount formDataId createdAt",
+          select: "productId paidAmount formDataId createdAt orderStatus",
         });
     } catch (error) {
       return error;

@@ -1,14 +1,22 @@
 const formDataServices = require("./formDataServices");
 let formDataController = {
   createFormData: async function (req, res) {
-    const { userId, productId, brideData, groomData, eventsData, images } =
-      req.body;
+    const {
+      userId,
+      productId,
+      brideData,
+      groomData,
+      eventsData,
+      images,
+      specialNotes,
+    } = req.body;
     const formDataInput = {
       userId: userId,
       productId: productId,
       brideData: brideData,
       groomData: groomData,
       eventsData: eventsData,
+      specialNotes: specialNotes,
       images: images,
     };
     if (!userId || !productId || !brideData || !groomData || !eventsData) {

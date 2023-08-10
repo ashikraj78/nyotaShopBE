@@ -8,6 +8,7 @@ var formDataSchema = new Schema(
     brideData: { type: Object, required: true },
     groomData: { type: Object, required: true },
     eventsData: [{ type: Object, required: true }],
+    specialNotes: String,
     images: [{ type: String }],
     orderId: { type: Schema.Types.ObjectId, ref: "Order" },
   },
