@@ -1,9 +1,15 @@
 const express = require("express");
+const authMiddleware = require("../middleware/authMiddleware");
 const productController = require("../src/products/productController");
 const router = express.Router();
 
 // create Product
 
-router.post("/createProduct", productController.createProduct);
+router.post(
+  "/createProduct",
+  //   authMiddleware.identifyUser,
+  productController.createProduct
+);
 router.get("/showProduct", productController.showProduct);
+router.put("/updateProduct", productController.updateProduct);
 module.exports = router;

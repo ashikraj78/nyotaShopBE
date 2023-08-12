@@ -52,7 +52,8 @@ app.use(
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/razorpay", razorpayRouter);
-app.use("/order", orderRouter);
+app.use("/order", authMiddleware.identifyUser, orderRouter);
+// app.use("/order", orderRouter);
 app.use("/product", productRouter);
 app.use("/formData", formDataRouter);
 

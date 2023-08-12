@@ -15,6 +15,15 @@ let productServices = {
       return error;
     }
   },
+  updateProduct: async function (productId, productData) {
+    try {
+      return await Product.findByIdAndUpdate(productId, productData, {
+        new: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  },
 };
 
 module.exports = productServices;
