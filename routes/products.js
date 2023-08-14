@@ -4,12 +4,10 @@ const productController = require("../src/products/productController");
 const router = express.Router();
 
 // create Product
-
-router.post(
-  "/createProduct",
-  //   authMiddleware.identifyUser,
-  productController.createProduct
-);
 router.get("/showProduct", productController.showProduct);
+
+router.use(authMiddleware.identifyUser);
+
+router.post("/createProduct", productController.createProduct);
 router.put("/updateProduct", productController.updateProduct);
 module.exports = router;
