@@ -43,6 +43,9 @@ let userServices = {
         .populate("myProducts", "title cost videoLink")
         .populate({
           path: "myOrders",
+          options: {
+            sort: { createdAt: -1 },
+          },
           populate: {
             path: "productId",
             model: "Product",
@@ -63,6 +66,9 @@ let userServices = {
         .populate("myProducts", "title cost videoLink")
         .populate({
           path: "myOrders",
+          options: {
+            sort: { createdAt: -1 },
+          },
           populate: {
             path: "productId",
             model: "Product",
