@@ -12,6 +12,7 @@ var razorpayRouter = require("./routes/razorpay");
 var orderRouter = require("./routes/order");
 var productRouter = require("./routes/products");
 var formDataRouter = require("./routes/formData");
+var cloudinaryRouter = require("./routes/cloudinary");
 const { default: mongoose } = require("mongoose");
 const session = require("express-session");
 const authMiddleware = require("./middleware/authMiddleware");
@@ -53,9 +54,9 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/razorpay", razorpayRouter);
 app.use("/order", authMiddleware.identifyUser, orderRouter);
-// app.use("/order", orderRouter);
 app.use("/product", productRouter);
 app.use("/formData", formDataRouter);
+app.use("/cloudinary", cloudinaryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
