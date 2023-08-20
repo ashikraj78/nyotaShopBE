@@ -67,6 +67,22 @@ let formDataController = {
       next(error);
     }
   },
+  updateImageFromData: async function (req, res, next) {
+    let formDataId = req.query.id;
+    const updatedImagesArray = req.body.images;
+    let formDataDetails = await formDataServices.findFormData(formDataId);
+
+    let updatedFormData = {
+      ...formDataDetails._doc,
+      images: updatedImagesArray,
+    };
+
+    const formData = await formDataServices.updateFormData(
+      formDataId,
+      updatedFormData
+    );
+    return res.json(formData);
+  },
 };
 
 module.exports = formDataController;

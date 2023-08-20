@@ -25,6 +25,13 @@ let formDataServices = {
       return error;
     }
   },
+  findFormData: async function (formDataId) {
+    try {
+      return await FormData.findById(formDataId);
+    } catch (error) {
+      return error;
+    }
+  },
   updateFormData: async function (formDataId, formData) {
     try {
       return await FormData.findByIdAndUpdate(formDataId, formData, {
